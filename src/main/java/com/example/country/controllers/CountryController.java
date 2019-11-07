@@ -2,7 +2,6 @@ package com.example.country.controllers;
 
 import com.example.country.domain.Country;
 import com.example.country.dto.CountryDto;
-import com.example.country.exceptions.NoSuchCustomerException;
 import com.example.country.facade.CountryFacade;
 import com.example.country.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,7 @@ public class CountryController {
         return countryFacade.findCountryById(id);
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     public List<Country> findCountries() {
         return countryRepository.findAll();
     }
