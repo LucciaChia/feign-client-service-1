@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: wrapper
+
+server:
+  port: 8082

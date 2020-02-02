@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Setter
 @Getter
-public class Country {
+public class Dog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
