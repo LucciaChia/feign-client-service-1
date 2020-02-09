@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
-@Entity
+@Entity(name = "Country")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -22,4 +21,20 @@ public class Country {
     private Long id;
     private String name;
 
+//    // unidirectional
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "capital_city_UNI_id")
+//    private Capitalcityuni capitalCityUNI;
+//
+//    // bidirectional
+//    @OneToOne(mappedBy = "country",
+//            cascade = CascadeType.ALL)
+//    @JoinColumn(name = "capital_city_BI_id")
+//    private CapitalCityBI capitalCityBI;
+
+    // unidirectional
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)// vytvori novu tabulku, kde sa paruju IDs: Country_id a CitizenUNISet_id
+    private Set<CitizenUNI> citizenUNISet = new HashSet<>();
+
+    // bidirectional
 }

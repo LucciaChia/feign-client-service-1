@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Setter
 @Getter
-public class Person {
+public class DogUNI {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
