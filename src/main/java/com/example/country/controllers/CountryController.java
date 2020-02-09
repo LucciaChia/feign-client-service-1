@@ -194,19 +194,21 @@ public class CountryController {
 
         return "bidirectional data were set";
     }
-//
-//    @GetMapping("/addcapitalcitybi")
-//    public String addCapitalCityBI() {
-//        CapitalCityBI capitalCityBI = new CapitalCityBI();
-//        capitalCityBI.setName("Washington-BI");
-//        capitalCityBIRepository.save(capitalCityBI);
-//        Optional<Country> country = countryRepository.findById(3L);
-//        country.get().setCapitalCityBI(capitalCityBI);
-//        countryRepository.save(country.get());
-//        capitalCityBI.setCountry(country.get());
-//        capitalCityBIRepository.save(capitalCityBI);
-//        return "add capital city bi";
-//    }
+
+    @GetMapping("/removeonetomanysetbidir")
+    public String addCapitalCityBI() {
+        // rosalinda was successfully removed
+        CitizenBI rosalinda = citizenBIRepository.findById(2L).get();
+        citizenBIRepository.delete(rosalinda);
+        citizenBIRepository.flush();
+
+        // sweden was successfully removed
+        Country sweden = countryRepository.findById(4L).get();
+        countryRepository.delete(sweden);
+        countryRepository.flush();
+
+        return "add capital city bi";
+    }
 
 //    @GetMapping("/country/{id}")
 //    public CountryDto removeCapitalCityUNI(@PathVariable Long id) {
