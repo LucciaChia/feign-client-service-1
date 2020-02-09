@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name = "Country")
@@ -34,7 +36,7 @@ public class Country {
 
     // unidirectional
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)// vytvori novu tabulku, kde sa paruju IDs: Country_id a CitizenUNISet_id
-    private Set<CitizenUNI> citizenUNISet = new HashSet<>();
+    private List<CitizenUNI> citizenUNISet = new ArrayList<>();
 
     // bidirectional
 }

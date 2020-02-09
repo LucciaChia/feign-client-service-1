@@ -68,21 +68,21 @@ public class CountryController {
         CitizenUNI fernandoHernandez = citizenUNI7.get();
         citizenUNIRepository.save(fernandoHernandez);
         Country germany = countryRepository.findById(2L).get();
-        Set<CitizenUNI> germanSet = new HashSet<>();
+        List<CitizenUNI> germanSet = new ArrayList<>();
         germanSet.add(saskiaBaum);
         germanSet.add(victorKlein);
         germanSet.add(heinrichHolz);
         germany.setCitizenUNISet(germanSet);
         countryRepository.save(germany);
         Country usa = countryRepository.findById(3L).get();
-        Set<CitizenUNI> usaSet = new HashSet<>();
+        List<CitizenUNI> usaSet = new ArrayList<>();
         usaSet.add(johnSmith);
         usaSet.add(emmaStone);
         usaSet.add(jenniferAniston);
         usa.setCitizenUNISet(usaSet);
         countryRepository.save(usa);
         Country spain = countryRepository.findById(5L).get();
-        Set<CitizenUNI> spanishSet = new HashSet<>();
+        List<CitizenUNI> spanishSet = new ArrayList<>();
         spanishSet.add(fernandoHernandez);
         spain.setCitizenUNISet(spanishSet);
         countryRepository.save(spain);
@@ -115,12 +115,14 @@ public class CountryController {
 
         Country germany = countryRepository.findById(2L).get();
         System.out.println(germany.getName() + " id = " + germany.getId());
-        germany.getCitizenUNISet().remove(citizenUNIRepository.findById(1L));
-        //germany.getCitizenUNISet().remove(saskiaBaum);
-        citizenUNIRepository.delete(saskiaBaum);
-        citizenUNIRepository.flush();
+        List<CitizenUNI> newSet = germany.getCitizenUNISet();
+        newSet.remove(citizenUNIRepository.findById(1L));
+//        germany.getCitizenUNISet().remove(saskiaBaum);
+        germany.setCitizenUNISet(newSet);
         countryRepository.save(germany);
         countryRepository.flush();
+        citizenUNIRepository.delete(saskiaBaum);
+        citizenUNIRepository.flush();
 
 
         System.out.println("Size is = " + countryRepository.findById(2L).get().getCitizenUNISet().size());
