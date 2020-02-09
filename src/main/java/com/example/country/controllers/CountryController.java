@@ -6,11 +6,9 @@ import com.example.country.facade.CountryFacade;
 import com.example.country.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.query.criteria.internal.expression.SimpleCaseExpression;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @RestController
@@ -32,6 +30,10 @@ public class CountryController {
     public CountryDto findCountry(@PathVariable Long id) {
         return countryFacade.findCountryById(id);
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // ------------------OneToMany UNIDIRECTIONAL relationship----------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
 
     @GetMapping("/onetomanyuni")
     public String addOneToManyUni() {
@@ -225,11 +227,5 @@ public class CountryController {
 //        return countryFacade.findCountryById(id);
 //    }
 
-
-
-//    @GetMapping("/")
-//    public List<Country> findCountries() {
-//        return countryRepository.findAll();
-//    }
 
 }
