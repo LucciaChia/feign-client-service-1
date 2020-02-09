@@ -34,9 +34,9 @@ public class CountryManagerController {
         CitizenUNI jenson = new CitizenUNI();
         jenson.setName("Jenson");
         CitizenUNI anderson = new CitizenUNI();
-        jenson.setName("Anderson");
+        anderson.setName("Anderson");
         CitizenUNI fredirkson = new CitizenUNI();
-        jenson.setName("Fredrikson");
+        fredirkson.setName("Fredrikson");
 
         List<CitizenUNI> finlanders = new ArrayList<>();
         finlanders.add(jenson);
@@ -67,6 +67,18 @@ public class CountryManagerController {
 
         entityManager.persist(japan);
         entityManager.flush();
+
+        finland.getCitizenUNISet().remove(jenson);
+
+        entityManager.remove(japan);
+
         return "manager was successfull";
     }
+
+//    @GetMapping("/manager/removestudy")
+//    @Transactional
+//    public String removeStudy() {
+//
+//
+//    }
 }
