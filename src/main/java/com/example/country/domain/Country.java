@@ -34,9 +34,11 @@ public class Country {
 //    @JoinColumn(name = "capital_city_BI_id")
 //    private CapitalCityBI capitalCityBI;
 
-    // unidirectional
+    // unidirectional parent site
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)// vytvori novu tabulku, kde sa paruju IDs: Country_id a CitizenUNISet_id
-    private List<CitizenUNI> citizenUNISet = new ArrayList<>();
+    private Set<CitizenUNI> citizenUNISet = new HashSet<>();
 
-    // bidirectional
+    // bidirectional parent site
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CitizenBI> citizenBISet = new HashSet<>();
 }

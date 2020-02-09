@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,7 +28,7 @@ public class CountryManagerController {
 
     @GetMapping("/manager/setdata")
     @Transactional
-    public String testManager() {
+    public String testManagerOneToManyUni() {
 
         Country finland = new Country();
         finland.setName("Finland");
@@ -38,7 +40,7 @@ public class CountryManagerController {
         CitizenUNI fredirkson = new CitizenUNI();
         fredirkson.setName("Fredrikson");
 
-        List<CitizenUNI> finlanders = new ArrayList<>();
+        Set<CitizenUNI> finlanders = new HashSet<>();
         finlanders.add(jenson);
         finlanders.add(anderson);
         finlanders.add(fredirkson);
@@ -58,7 +60,7 @@ public class CountryManagerController {
         CitizenUNI inu = new CitizenUNI();
         inu.setName("Inu");
 
-        List<CitizenUNI> japaners = new ArrayList<>();
+        Set<CitizenUNI> japaners = new HashSet<>();
         japaners.add(akiko);
         japaners.add(ramen);
         japaners.add(inu);

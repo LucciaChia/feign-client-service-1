@@ -1,19 +1,13 @@
 package com.example.country.controllers;
 
-import com.example.country.domain.CapitalCityBI;
-import com.example.country.domain.Capitalcityuni;
-import com.example.country.domain.CitizenUNI;
-import com.example.country.domain.Country;
+import com.example.country.domain.*;
 import com.example.country.dto.CountryDto;
 import com.example.country.facade.CountryFacade;
 import com.example.country.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.query.criteria.internal.expression.SimpleCaseExpression;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -32,11 +26,6 @@ public class CountryController {
 
     private final CitizenUNIRepository citizenUNIRepository;
     private final CitizenBIRepository citizenBIRepository;
-
-    @GetMapping("/")
-    public String test() {
-        return "test";
-    }
 
 
     @GetMapping("/country/{id}")
@@ -68,21 +57,21 @@ public class CountryController {
         CitizenUNI fernandoHernandez = citizenUNI7.get();
         citizenUNIRepository.save(fernandoHernandez);
         Country germany = countryRepository.findById(2L).get();
-        List<CitizenUNI> germanSet = new ArrayList<>();
+        Set<CitizenUNI> germanSet = new HashSet<>();
         germanSet.add(saskiaBaum);
         germanSet.add(victorKlein);
         germanSet.add(heinrichHolz);
         germany.setCitizenUNISet(germanSet);
         countryRepository.save(germany);
         Country usa = countryRepository.findById(3L).get();
-        List<CitizenUNI> usaSet = new ArrayList<>();
+        Set<CitizenUNI> usaSet = new HashSet<>();
         usaSet.add(johnSmith);
         usaSet.add(emmaStone);
         usaSet.add(jenniferAniston);
         usa.setCitizenUNISet(usaSet);
         countryRepository.save(usa);
         Country spain = countryRepository.findById(5L).get();
-        List<CitizenUNI> spanishSet = new ArrayList<>();
+        Set<CitizenUNI> spanishSet = new HashSet<>();
         spanishSet.add(fernandoHernandez);
         spain.setCitizenUNISet(spanishSet);
         countryRepository.save(spain);
@@ -106,7 +95,8 @@ public class CountryController {
 //        return "One to Many unidirectional - child data - a person called Saskia Baum id = 1 was removed";
 //    }
 
-    @GetMapping("/onetomanyuniremovehuman")
+    //TODO OPRAVIT NEFUNGUJE !!!
+    @GetMapping("/onetomanyuniremovehuman") // NEFUNGUJE - SPYTAT SA
     public String removeOneToManyUniRemoveHuman() {
         Optional<CitizenUNI> citizenUNI1 = citizenUNIRepository.findById(1L);
         CitizenUNI saskiaBaum = citizenUNI1.get();
@@ -115,7 +105,7 @@ public class CountryController {
 
         Country germany = countryRepository.findById(2L).get();
         System.out.println(germany.getName() + " id = " + germany.getId());
-        List<CitizenUNI> newSet = germany.getCitizenUNISet();
+        Set<CitizenUNI> newSet = germany.getCitizenUNISet();
         newSet.remove(citizenUNIRepository.findById(1L));
 //        germany.getCitizenUNISet().remove(saskiaBaum);
         germany.setCitizenUNISet(newSet);
@@ -145,19 +135,65 @@ public class CountryController {
         countryRepository.flush();
         return "One to Many unidirectional - parent data - a country usa id = 3 was removed";
     }
-//
-//    @GetMapping("/addcapitalcityuni")
-//    public String addCapitalCityUNI() {
-//        // ulozim do UNI tabulky a savenem
-//        Capitalcityuni capitalcityuni = new Capitalcityuni();
-//        capitalcityuni.setName("Berlin-UNI");
-//        capitalcityuniRepository.save(capitalcityuni);
-//        // naviazem na spravnu krajinu a ulozim do country tabulky a savenem
-//        Optional<Country> country = countryRepository.findById(2L);
-//        country.get().setCapitalCityUNI(capitalcityuni);
-//        countryRepository.save(country.get());
-//        return "add capital city uni";
-//    }
+    // -----------------------------------------------------------------------------------------------------------------
+    // ------------------OneToMany BIDIRECTIONAL relationship-----------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @GetMapping("/onetomanysetbidir")
+    public String settingBidirectionalDataBI() {
+
+        Country sweden = countryRepository.findById(4L).get();
+        Country spain = countryRepository.findById(5L).get();
+
+        CitizenBI manuelaGonzalez = citizenBIRepository.findById(1L).get();
+        manuelaGonzalez.setCountry(spain);
+        citizenBIRepository.save(manuelaGonzalez);
+        CitizenBI rosalinda = citizenBIRepository.findById(2L).get();
+        rosalinda.setCountry(spain);
+        citizenBIRepository.save(rosalinda);
+        CitizenBI esmeralda = citizenBIRepository.findById(3L).get();
+        esmeralda.setCountry(spain);
+        citizenBIRepository.save(esmeralda);
+        CitizenBI nataliaOreiro = citizenBIRepository.findById(4L).get();
+        nataliaOreiro.setCountry(spain);
+        citizenBIRepository.save(nataliaOreiro);
+        CitizenBI henrikSedin = citizenBIRepository.findById(5L).get();
+        henrikSedin.setCountry(sweden);
+        citizenBIRepository.save(henrikSedin);
+        CitizenBI danielAlfredsson = citizenBIRepository.findById(6L).get();
+        danielAlfredsson.setCountry(sweden);
+        citizenBIRepository.save(danielAlfredsson);
+        CitizenBI niklasKronwall = citizenBIRepository.findById(7L).get();
+        niklasKronwall.setCountry(sweden);
+        citizenBIRepository.save(niklasKronwall);
+        CitizenBI henrikLindqvist = citizenBIRepository.findById(8L).get();
+        henrikLindqvist.setCountry(sweden);
+        citizenBIRepository.save(henrikLindqvist);
+        CitizenBI louiEriksson = citizenBIRepository.findById(9L).get();
+        louiEriksson.setCountry(sweden);
+        citizenBIRepository.save(louiEriksson);
+
+        Set<CitizenBI> latinos = new HashSet<>();
+        latinos.add(manuelaGonzalez);
+        latinos.add(rosalinda);
+        latinos.add(esmeralda);
+        latinos.add(nataliaOreiro);
+
+        Set<CitizenBI> swedens = new HashSet<>();
+        swedens.add(henrikSedin);
+        swedens.add(danielAlfredsson);
+        swedens.add(niklasKronwall);
+        swedens.add(henrikLindqvist);
+        swedens.add(louiEriksson);
+
+        sweden.setCitizenBISet(swedens);
+        spain.setCitizenBISet(latinos);
+
+        countryRepository.save(sweden);
+        countryRepository.save(spain);
+
+        return "bidirectional data were set";
+    }
 //
 //    @GetMapping("/addcapitalcitybi")
 //    public String addCapitalCityBI() {
