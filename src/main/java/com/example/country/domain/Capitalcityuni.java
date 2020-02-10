@@ -19,5 +19,5 @@ public class Capitalcityuni {
     private Long id;
     private String name;
 
-    // v uni nebude nic, ak ide o unidirectional vztah
+    // unidirectional association has no annotations or anything else in a child class
 }

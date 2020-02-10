@@ -5,6 +5,10 @@ INSERT INTO country (name) VALUES ('Sweden');
 INSERT INTO country (name) VALUES ('Spain');
 
 INSERT INTO Capital_CityUNI (name) VALUES ('Bratislava');
+INSERT INTO Capital_CityUNI (name) VALUES ('Berlin');
+INSERT INTO Capital_CityUNI (name) VALUES ('Washington');
+INSERT INTO Capital_CityUNI (name) VALUES ('Stockholm');
+INSERT INTO Capital_CityUNI (name) VALUES ('Madrid');
 
 INSERT INTO capital_citybi (name) VALUES ('Bratislava');
 

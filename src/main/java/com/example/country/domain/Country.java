@@ -21,11 +21,11 @@ public class Country {
     private Long id;
     private String name;
 
-//    // unidirectional
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "capital_city_UNI_id")
-//    private Capitalcityuni capitalCityUNI;
-//
+    // unidirectional
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "capital_city_UNI_id")
+    private Capitalcityuni capitalCityUNI;
+
 //    // bidirectional
 //    @OneToOne(mappedBy = "country",
 //            cascade = CascadeType.ALL)

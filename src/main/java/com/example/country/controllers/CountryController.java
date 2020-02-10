@@ -215,10 +215,41 @@ public class CountryController {
         return "add capital city bi";
     }
 
-//    @GetMapping("/country/{id}")
-//    public CountryDto removeCapitalCityUNI(@PathVariable Long id) {
-//        return countryFacade.findCountryById(id);
-//    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // ------------------OneToOne UNIDIRECTIONAL relationship-----------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+
+
+    @GetMapping("/onetooneuni")
+    public String settingOneToOneUniData() {
+
+        Capitalcityuni bratislava = capitalcityuniRepository.findById(1L).get();
+        Capitalcityuni berlin = capitalcityuniRepository.findById(2L).get();
+        Capitalcityuni washington = capitalcityuniRepository.findById(3L).get();
+        Capitalcityuni stockholm = capitalcityuniRepository.findById(4L).get();
+        Capitalcityuni madrid = capitalcityuniRepository.findById(5L).get();
+
+        Country slovakia = countryRepository.findById(1L).get();
+        slovakia.setCapitalCityUNI(bratislava);
+        countryRepository.save(slovakia);
+
+        Country germany = countryRepository.findById(2L).get();
+        germany.setCapitalCityUNI(berlin);
+        countryRepository.save(germany);
+
+        Country usa = countryRepository.findById(3L).get();
+        usa.setCapitalCityUNI(washington);
+        countryRepository.save(usa);
+        Country sweden = countryRepository.findById(4L).get();
+        sweden.setCapitalCityUNI(stockholm);
+        countryRepository.save(sweden);
+        Country spain = countryRepository.findById(5L).get();
+        spain.setCapitalCityUNI(madrid);
+        countryRepository.save(spain);
+
+        return "OneToOne unidirectional data successfully set";
+    }
 //
 //    @GetMapping("/country/{id}")
 //    public CountryDto removeCapitalCityBI(@PathVariable Long id) {
