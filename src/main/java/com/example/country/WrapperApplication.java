@@ -10,7 +10,7 @@ public class WrapperApplication {
     public static void main(String[] args) {
         SpringApplication.run(WrapperApplication.class, args);
 
-        System.out.println("Hello World *********************************** ");
+        System.out.println(" *********************************** Hello Lucinka *********************************** ");
     }
 
 }

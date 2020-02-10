@@ -97,36 +97,39 @@ public class CountryController {
 //        return "One to Many unidirectional - child data - a person called Saskia Baum id = 1 was removed";
 //    }
 
-    //TODO OPRAVIT NEFUNGUJE !!!
-    @GetMapping("/onetomanyuniremovehuman") // NEFUNGUJE - SPYTAT SA
+    @GetMapping("/onetomanyuniremovehuman")
     public String removeOneToManyUniRemoveHuman() {
-        Optional<CitizenUNI> citizenUNI1 = citizenUNIRepository.findById(1L);
-        CitizenUNI saskiaBaum = citizenUNI1.get();
-        System.out.println(saskiaBaum.getName() + " id = " + saskiaBaum.getId());
+        // najskor najdem cloveka, ktoreho chcem zmazat:
+        // (chcem zmazat Saskia Baum, ktora ma ID=1L a je priradena nemecku
 
+        CitizenUNI saskiaBaum = citizenUNIRepository.findById(1L).get();
+        System.out.println("Human to be deleted = " + saskiaBaum.getName());
 
+        // najdem krajinu, z ktorej chcem mazat t.j. Nemecko
         Country germany = countryRepository.findById(2L).get();
-        System.out.println(germany.getName() + " id = " + germany.getId());
-        Set<CitizenUNI> newSet = germany.getCitizenUNISet();
-        newSet.remove(citizenUNIRepository.findById(1L));
-//        germany.getCitizenUNISet().remove(saskiaBaum);
-        germany.setCitizenUNISet(newSet);
-        countryRepository.save(germany);
-        countryRepository.flush();
-        citizenUNIRepository.delete(saskiaBaum);
-        citizenUNIRepository.flush();
+        System.out.println("Country associated with human = " + germany.getName());
 
-
-        System.out.println("Size is = " + countryRepository.findById(2L).get().getCitizenUNISet().size());
-        Iterator<CitizenUNI> iterator = countryRepository.findById(2L).get().getCitizenUNISet().iterator();
-        while (iterator.hasNext()){
+        Set<CitizenUNI> citizenUNISet = germany.getCitizenUNISet();
+        Iterator<CitizenUNI> iterator = citizenUNISet.iterator();
+        while (iterator.hasNext()) {
             System.out.println(iterator.next().getName());
         }
-        System.out.println("***");
+        // existovali 2 instancie objektu Saskia Baum, bolo treba zmazat vsetky, co remove nevie,
+        // na toto sa pouziva removeIf
+        //System.out.println("removed = " + citizenUNISet.remove(saskiaBaum));
+        System.out.println("removed = " + citizenUNISet.removeIf(entity -> entity.getId() == 1L));
 
-//        countryRepository.flush();
-//        citizenUNIRepository.deleteById(1L);
-//        citizenBIRepository.flush();
+        System.out.println("iterator2:");
+        countryRepository.save(germany);
+
+        Iterator<CitizenUNI> iterator2 = citizenUNISet.iterator();
+        while (iterator2.hasNext()) {
+            System.out.println(iterator2.next().getName());
+        }
+
+        System.out.println(" **** ");
+        citizenUNIRepository.delete(saskiaBaum);
+
         return "One to Many unidirectional - child data - a person called Saskia Baum id = 1 was removed";
     }
 
