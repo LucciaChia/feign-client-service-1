@@ -250,16 +250,33 @@ public class CountryController {
 
         return "OneToOne unidirectional data successfully set";
     }
-//
-//    @GetMapping("/country/{id}")
-//    public CountryDto removeCapitalCityBI(@PathVariable Long id) {
-//        return countryFacade.findCountryById(id);
-//    }
-//
-//    @GetMapping("/country/{id}")
-//    public CountryDto removeCapitalCityBI(@PathVariable Long id) {
-//        return countryFacade.findCountryById(id);
-//    }
+
+    @GetMapping("/onetooneuniremovecountry")
+    public String removeOneToOneUNICountry() {
+        // uspesne zmaze slovensko z country aj bratislavu z capital city
+        // country je parent = owner
+        Country slovakia = countryRepository.findById(1L).get();
+        countryRepository.delete(slovakia);
+
+        return "OneToOne UNI remove a Country was successful";
+    }
+
+    @GetMapping("/onetooneuniremovecity")
+    public String removeOneToOneUNICity() {
+
+        Capitalcityuni stockholm = capitalcityuniRepository.findById(4L).get();
+        capitalcityuniRepository.delete(stockholm);
+
+//        org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException:
+//        Referential integrity constraint violation:
+//        "FKLGSFRWD56CXJB9OFA46KDN4EK: PUBLIC.COUNTRY FOREIGN KEY(CAPITAL_CITY_UNI_ID) REFERENCES PUBLIC.CAPITAL_CITYUNI(ID) (4)";
+//        SQL statement:
+//        delete from capital_cityuni where id=? [23503-199]
+
+//        Country sweden = countryRepository.findById(4L).get();
+//        countryRepository.delete(stockholm);
+        return "OneToOne UNI remove a City was successful";
+    }
 
 
 }
