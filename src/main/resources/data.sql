@@ -11,6 +11,10 @@ INSERT INTO Capital_CityUNI (name) VALUES ('Stockholm');
 INSERT INTO Capital_CityUNI (name) VALUES ('Madrid');
 
 INSERT INTO capital_citybi (name) VALUES ('Bratislava');
+INSERT INTO capital_citybi (name) VALUES ('Berlin');
+INSERT INTO capital_citybi (name) VALUES ('Washington');
+INSERT INTO capital_citybi (name) VALUES ('Stockholm');
+INSERT INTO capital_citybi (name) VALUES ('Madrid');
 
 INSERT INTO CitizenUNI (name) VALUES ('Saskia Baum');
 INSERT INTO CitizenUNI (name) VALUES ('Victor Klein');

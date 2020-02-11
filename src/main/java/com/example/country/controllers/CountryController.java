@@ -200,19 +200,25 @@ public class CountryController {
         return "bidirectional data were set";
     }
 
-    @GetMapping("/removeonetomanysetbidir")
-    public String addCapitalCityBI() {
-        // rosalinda was successfully removed
-        CitizenBI rosalinda = citizenBIRepository.findById(2L).get();
-        citizenBIRepository.delete(rosalinda);
-        citizenBIRepository.flush();
+    @GetMapping("/onetomanybiremovecountry")
+    public String removeOneToManyBICountry() {
 
         // sweden was successfully removed
         Country sweden = countryRepository.findById(4L).get();
         countryRepository.delete(sweden);
         countryRepository.flush();
 
-        return "add capital city bi";
+        return "OneToMany BI remove Country was successful";
+    }
+
+    @GetMapping("/onetomanybiremovecitizen")
+    public String removeOneToManyBICitizen() {
+        // rosalinda was successfully removed
+        CitizenBI rosalinda = citizenBIRepository.findById(2L).get();
+        citizenBIRepository.delete(rosalinda);
+        citizenBIRepository.flush();
+
+        return "OneToMany BI remove Citizen was successful";
     }
 
 
@@ -248,7 +254,7 @@ public class CountryController {
         spain.setCapitalCityUNI(madrid);
         countryRepository.save(spain);
 
-        return "OneToOne unidirectional data successfully set";
+        return "OneToOne unidirectional data were successfully set";
     }
 
     @GetMapping("/onetooneuniremovecountry")
@@ -280,5 +286,66 @@ public class CountryController {
         return "OneToOne UNI remove a City was successful";
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // ------------------OneToOne BIDIRECTIONAL relationship------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @GetMapping("/onetoonebi")
+    public String settingOneToOneBiData() {
+
+        Country slovakia = countryRepository.findById(1L).get();
+        Country germany = countryRepository.findById(2L).get();
+        Country usa = countryRepository.findById(3L).get();
+        Country sweden = countryRepository.findById(4L).get();
+        Country spain = countryRepository.findById(5L).get();
+
+        CapitalCityBI bratislava = capitalCityBIRepository.findById(1L).get();
+        CapitalCityBI berlin = capitalCityBIRepository.findById(2L).get();
+        CapitalCityBI washington = capitalCityBIRepository.findById(3L).get();
+        CapitalCityBI stockholm = capitalCityBIRepository.findById(4L).get();
+        CapitalCityBI madrid = capitalCityBIRepository.findById(5L).get();
+
+        slovakia.setCapitalCityBI(bratislava);
+        countryRepository.save(slovakia);
+        germany.setCapitalCityBI(berlin);
+        countryRepository.save(germany);
+        usa.setCapitalCityBI(washington);
+        countryRepository.save(usa);
+        sweden.setCapitalCityBI(stockholm);
+        countryRepository.save(sweden);
+        spain.setCapitalCityBI(madrid);
+        countryRepository.save(spain);
+
+        bratislava.setCountry(slovakia);
+        capitalCityBIRepository.save(bratislava);
+        berlin.setCountry(germany);
+        capitalCityBIRepository.save(berlin);
+        washington.setCountry(usa);
+        capitalCityBIRepository.save(washington);
+        stockholm.setCountry(sweden);
+        capitalCityBIRepository.save(stockholm);
+        madrid.setCountry(spain);
+        capitalCityBIRepository.save(madrid);
+
+        return "OneToOne bidirectional data were successfully set";
+    }
+
+    @GetMapping("/onetoonebiremovecountry")
+    public String removeOneToOneBICountry() {
+
+        Country usa = countryRepository.findById(3L).get();
+        countryRepository.delete(usa);
+
+        return "OneToOne BI remove a Country was successful";
+    }
+
+    @GetMapping("/onetoonebiremovecity")
+    public String removeOneToOneBICity() {
+
+        CapitalCityBI madrid = capitalCityBIRepository.findById(5L).get();
+        capitalCityBIRepository.delete(madrid);
+
+        return "OneToOne BI remove a City was successful";
+    }
 
 }
