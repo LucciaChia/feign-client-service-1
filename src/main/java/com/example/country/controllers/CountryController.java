@@ -264,17 +264,19 @@ public class CountryController {
     @GetMapping("/onetooneuniremovecity")
     public String removeOneToOneUNICity() {
 
-        Capitalcityuni stockholm = capitalcityuniRepository.findById(4L).get();
-        capitalcityuniRepository.delete(stockholm);
+        Country sweden = countryRepository.findById(4L).get();
+        sweden.setCapitalCityUNI(null);
+        countryRepository.save(sweden); // NEZABUDAT NA SAVE !!! ZASA CHYBAL A POTOM SOM MALA CHYBU:
 
 //        org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException:
 //        Referential integrity constraint violation:
 //        "FKLGSFRWD56CXJB9OFA46KDN4EK: PUBLIC.COUNTRY FOREIGN KEY(CAPITAL_CITY_UNI_ID) REFERENCES PUBLIC.CAPITAL_CITYUNI(ID) (4)";
 //        SQL statement:
 //        delete from capital_cityuni where id=? [23503-199]
+        Capitalcityuni stockholm = capitalcityuniRepository.findById(4L).get();
 
-//        Country sweden = countryRepository.findById(4L).get();
-//        countryRepository.delete(stockholm);
+        capitalcityuniRepository.delete(stockholm);
+
         return "OneToOne UNI remove a City was successful";
     }
 
