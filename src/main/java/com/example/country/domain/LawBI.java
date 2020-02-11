@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Setter
 @Getter
-public class DogUNI {
+public class LawBI {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -25,6 +25,9 @@ public class CountryController {
     private final CitizenUNIRepository citizenUNIRepository;
     private final CitizenBIRepository citizenBIRepository;
 
+    private final LawUNIRepository lawUNIRepository;
+    private final LawBIRepository lawBIRepository;
+
 
     @GetMapping("/country/{id}")
     public CountryDto findCountry(@PathVariable Long id) {
@@ -347,5 +350,95 @@ public class CountryController {
 
         return "OneToOne BI remove a City was successful";
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // ------------------ManyToMany UNIDIRECTIONAL relationship---------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @GetMapping("/manytomanyuni")
+    public String settingManyToManyUniData() {
+
+        Country slovakia = countryRepository.findById(1L).get();
+        Country germany = countryRepository.findById(2L).get();
+        Country usa = countryRepository.findById(3L).get();
+        Country sweden = countryRepository.findById(4L).get();
+        Country spain = countryRepository.findById(5L).get();
+
+        LawUNI notToSteal = lawUNIRepository.findById(1L).get();
+        LawUNI notToKill = lawUNIRepository.findById(2L).get();
+        LawUNI toPayTaxes = lawUNIRepository.findById(3L).get();
+
+        Set<LawUNI> lawUNISetSlo = new HashSet<>();
+        lawUNISetSlo.add(notToSteal);
+        lawUNISetSlo.add(notToKill);
+        lawUNISetSlo.add(toPayTaxes);
+        slovakia.setLawUNISet(lawUNISetSlo);
+        countryRepository.save(slovakia);
+
+        Set<LawUNI> lawUNISetGer = new HashSet<>();
+        lawUNISetGer.add(notToSteal);
+        lawUNISetGer.add(notToKill);
+        lawUNISetGer.add(toPayTaxes);
+        germany.setLawUNISet(lawUNISetGer);
+        countryRepository.save(germany);
+
+        Set<LawUNI> lawUNISetUsa = new HashSet<>();
+        lawUNISetUsa.add(notToSteal);
+        lawUNISetUsa.add(notToKill);
+        lawUNISetUsa.add(toPayTaxes);
+        usa.setLawUNISet(lawUNISetUsa);
+        countryRepository.save(usa);
+
+        Set<LawUNI> lawUNISetSwe = new HashSet<>();
+        lawUNISetSwe.add(notToSteal);
+        lawUNISetSwe.add(notToKill);
+        lawUNISetSwe.add(toPayTaxes);
+        sweden.setLawUNISet(lawUNISetSwe);
+        countryRepository.save(sweden);
+
+        Set<LawUNI> lawUNISetSpain = new HashSet<>();
+        lawUNISetSpain.add(notToSteal);
+        lawUNISetSpain.add(notToKill);
+        lawUNISetSpain.add(toPayTaxes);
+        spain.setLawUNISet(lawUNISetSpain);
+        countryRepository.save(spain);
+
+        return "ManyToMany unidirectional data were successfully set";
+    }
+
+    @GetMapping("/manytomanyuniremovecountry")
+    public String removeManyToManyUniCountry() {
+
+        Country usa = countryRepository.findById(3L).get();
+
+        usa.setLawUNISet(null); // bez tohoto dostanem:
+        //org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException:
+        // Referential integrity constraint violation:
+        // "FK6WBJ4HD3SUXOAJ4B55G8P0E9G: PUBLIC.COUNTRY_LAWUNISET FOREIGN KEY(LAWUNISET_ID) REFERENCES PUBLIC.LAWUNI(ID) (1)";
+        // SQL statement:
+        //delete from lawuni where id=? [23503-199]
+        countryRepository.save(usa);
+        countryRepository.delete(usa);
+        countryRepository.flush();
+
+        return "ManyToMany UNI remove a Country was successful";
+    }
+
+    @GetMapping("/manytomanyuniremovelawfromacountry")
+    public String removeManyToManyUniLaw() {
+
+        LawUNI toPayTaxes = lawUNIRepository.findById(3L).get();
+
+        Country spain = countryRepository.findById(5L).get();
+        Set<LawUNI> lawUNISet = spain.getLawUNISet();
+        lawUNISet.removeIf(lawUNI -> lawUNI.getName().equals("To Pay Taxes")); // == nefunguje, lebo ide o String, musim pouzit equals()
+        countryRepository.save(spain);
+
+        return "ManyToMany UNI remove a City was successful";
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // ------------------ManyToMany BIDIRECTIONAL relationship----------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
 
 }

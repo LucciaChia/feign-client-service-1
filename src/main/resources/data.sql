@@ -33,3 +33,7 @@ insert into CitizenBI (name) values ('Daniel Alfredsson');
 insert into CitizenBI (name) values ('Niklas Kronwall');
 insert into CitizenBI (name) values ('Henrik Lindqvist');
 insert into CitizenBI (name) values ('Loui Eriksson');
+
+INSERT INTO LawUNI (name) VALUES ('Not To Steal');
+INSERT INTO LawUNI (name) VALUES ('Not To Kill');
+INSERT INTO LawUNI (name) VALUES ('To Pay Taxes');

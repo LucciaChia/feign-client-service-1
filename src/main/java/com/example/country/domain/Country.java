@@ -40,4 +40,8 @@ public class Country {
     // bidirectional parent site
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CitizenBI> citizenBISet = new HashSet<>();
+
+    // unidirectional
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // ked tu nie je fetch EAGER, tak
+    private Set<LawUNI> lawUNISet = new HashSet<>();                // @GetMapping("/manytomanyuniremovelawfromacountry") nefunguje
 }
