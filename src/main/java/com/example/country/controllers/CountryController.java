@@ -403,7 +403,7 @@ public class CountryController {
         spain.setLawUNISet(lawUNISetSpain);
         countryRepository.save(spain);
 
-        return "ManyToMany unidirectional data were successfully set";
+        return "ManyToMany UNIdirectional data were successfully set";
     }
 
     @GetMapping("/manytomanyuniremovecountry")
@@ -440,5 +440,116 @@ public class CountryController {
     // -----------------------------------------------------------------------------------------------------------------
     // ------------------ManyToMany BIDIRECTIONAL relationship----------------------------------------------------------
     // -----------------------------------------------------------------------------------------------------------------
+
+    @GetMapping("/manytomanybi")
+    public String settingManyToManyBiData() {
+
+        Country slovakia = countryRepository.findById(1L).get();
+        Country germany = countryRepository.findById(2L).get();
+        Country usa = countryRepository.findById(3L).get();
+        Country sweden = countryRepository.findById(4L).get();
+        Country spain = countryRepository.findById(5L).get();
+
+        LawBI toMowALawn = lawBIRepository.findById(1L).get();
+        LawBI toWaterALawn = lawBIRepository.findById(2L).get();
+        LawBI toGrowNewTrees = lawBIRepository.findById(3L).get();
+        LawBI notToTameAWildCat = lawBIRepository.findById(4L).get();
+
+        Set<LawBI> lawBISetSlo = new HashSet<>();
+        lawBISetSlo.add(toMowALawn);
+        lawBISetSlo.add(toWaterALawn);
+        lawBISetSlo.add(toGrowNewTrees);
+        lawBISetSlo.add(notToTameAWildCat);
+        slovakia.setLawBISet(lawBISetSlo);
+        countryRepository.save(slovakia);
+
+        Set<LawBI> lawBISetGer = new HashSet<>();
+        lawBISetGer.add(toMowALawn);
+        lawBISetGer.add(toWaterALawn);
+        lawBISetGer.add(toGrowNewTrees);
+        lawBISetGer.add(notToTameAWildCat);
+        germany.setLawBISet(lawBISetGer);
+        countryRepository.save(germany);
+
+        Set<LawBI> lawBISetUsa = new HashSet<>();
+        lawBISetUsa.add(toMowALawn);
+        lawBISetUsa.add(toWaterALawn);
+        lawBISetUsa.add(toGrowNewTrees);
+        lawBISetUsa.add(notToTameAWildCat);
+        usa.setLawBISet(lawBISetUsa);
+        countryRepository.save(usa);
+
+        Set<LawBI> lawBISetSwe = new HashSet<>();
+        lawBISetSwe.add(toMowALawn);
+        lawBISetSwe.add(toWaterALawn);
+        lawBISetSwe.add(toGrowNewTrees);
+        lawBISetSwe.add(notToTameAWildCat);
+        sweden.setLawBISet(lawBISetSwe);
+        countryRepository.save(sweden);
+
+        Set<LawBI> lawBISetSpain = new HashSet<>();
+        lawBISetSpain.add(toMowALawn);
+        lawBISetSpain.add(toWaterALawn);
+        lawBISetSpain.add(toGrowNewTrees);
+        lawBISetSpain.add(notToTameAWildCat);
+        spain.setLawBISet(lawBISetSpain);
+        countryRepository.save(spain);
+
+        return "ManyToMany BIdirectional data were successfully set";
+    }
+
+    // TOTO ESTE PREMYSLIET, ale funguje to
+
+    @GetMapping("/manytomanybiremovecountry")
+    public String removeManyToManyBiCountry() {
+
+        Country usa = countryRepository.findById(3L).get();
+
+//        usa.setLawBISet(null); // bez tohoto dostanem:
+//        //org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException:
+//        // Referential integrity constraint violation:
+//        // "FK6WBJ4HD3SUXOAJ4B55G8P0E9G: PUBLIC.COUNTRY_LAWUNISET FOREIGN KEY(LAWUNISET_ID) REFERENCES PUBLIC.LAWUNI(ID) (1)";
+//        // SQL statement:
+//        //delete from lawuni where id=? [23503-199]
+//        countryRepository.save(usa);
+        countryRepository.delete(usa);
+        countryRepository.flush();
+
+        return "ManyToMany BI remove a Country was successful";
+    }
+
+    @GetMapping("/manytomanybiremovelawfromacountry")
+    public String removeManyToManyBiLawInACountry() {
+
+        LawBI toMowALawn = lawBIRepository.findById(1L).get();
+
+        Country spain = countryRepository.findById(5L).get();
+        Set<LawBI> lawBISet = spain.getLawBISet();
+        lawBISet.removeIf(lawBI -> lawBI.getName().equals("To Mow A Lawn")); // == nefunguje, lebo ide o String, musim pouzit equals()
+        countryRepository.save(spain);
+
+        return "ManyToMany BI remove a Law from a Country was successful";
+    }
+
+    @GetMapping("/manytomanybiremovelaw")
+    public String removeManyToManyBiLaw() {
+
+        LawBI notToTameAWildCat = lawBIRepository.findById(4L).get();
+
+        for (long i = 1; i <= countryRepository.findAll().size(); i++) {
+            Country country = countryRepository.findById(i).get();
+
+            if (country != null) {
+                Set<LawBI> lawBISet = country.getLawBISet();
+                lawBISet.removeIf(lawBI -> lawBI.getName().equals("Not To Tame A Wild Cat"));
+                countryRepository.save(country);
+            }
+        }
+
+        lawBIRepository.delete(notToTameAWildCat);
+
+
+        return "ManyToMany BI remove a Law was successful";
+    }
 
 }

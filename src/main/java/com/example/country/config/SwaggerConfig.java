@@ -54,7 +54,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                         .title("Country project")
                         .version("0.1.1-SNAPSHOT")
                         .build())
-                .host("localhost:8080")
+                .host("localhost:8088")
                 .useDefaultResponseMessages(false);
     }
 

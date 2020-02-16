@@ -37,3 +37,8 @@ insert into CitizenBI (name) values ('Loui Eriksson');
 INSERT INTO LawUNI (name) VALUES ('Not To Steal');
 INSERT INTO LawUNI (name) VALUES ('Not To Kill');
 INSERT INTO LawUNI (name) VALUES ('To Pay Taxes');
+
+INSERT INTO LawBI (name) VALUES ('To Mow A Lawn');
+INSERT INTO LawBI (name) VALUES ('To Water A Lawn');
+INSERT INTO LawBI (name) VALUES ('To Grow New Trees');
+INSERT INTO LawBI (name) VALUES ('Not To Tame A Wild Cat');

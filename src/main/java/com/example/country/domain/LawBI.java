@@ -5,10 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -21,5 +20,7 @@ public class LawBI {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
+    // v mappedBy je nazov premennej v Country, ktora je ManyToMany: private Set<LawBI> lawBISet = new HashSet<>();
+    @ManyToMany(mappedBy = "lawBISet")
+    private Set<Country> countrySet = new HashSet<>();
 }

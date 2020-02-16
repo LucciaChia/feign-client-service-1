@@ -41,7 +41,18 @@ public class Country {
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CitizenBI> citizenBISet = new HashSet<>();
 
-    // unidirectional
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // ked tu nie je fetch EAGER, tak
+    // unidirectional     tento ALL mozno nie je dobre
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER) // ked tu nie je fetch EAGER, tak
     private Set<LawUNI> lawUNISet = new HashSet<>();                // @GetMapping("/manytomanyuniremovelawfromacountry") nefunguje
+
+    // bidirectional
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    private Set<LawBI> lawBISet = new HashSet<>(); // ked nie je fetch EAGER dostavam:
+//    org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role: com.example.country.domain.Country.lawBISet, could not initialize proxy - no Session
+//    at org.hibernate.collection.internal.AbstractPersistentCollection.throwLazyInitializationException(AbstractPersistentCollection.java:606) ~[hibernate-core-5.4.6.Final.jar:5.4.6.Final]
+//    at org.hibernate.collection.internal.AbstractPersistentCollection.withTemporarySessionIfNeeded(AbstractPersistentCollection.java:218) ~[hibernate-core-5.4.6.Final.jar:5.4.6.Final]
+//    at org.hibernate.collection.internal.AbstractPersistentCollection.initialize(AbstractPersistentCollection.java:585) ~[hibernate-core-5.4.6.Final.jar:5.4.6.Final]
+//    at org.hibernate.collection.internal.AbstractPersistentCollection.read(AbstractPersistentCollection.java:149) ~[hibernate-core-5.4.6.Final.jar:5.4.6.Final]
+//    at org.hibernate.collection.internal.PersistentSet.iterator(PersistentSet.java:188) ~[hibernate-core-5.4.6.Final.jar:5.4.6.Final]
+//    at java.base/java.util.Collection.removeIf(Collection.java:542) ~[na:na]
 }
