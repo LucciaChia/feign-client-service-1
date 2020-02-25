@@ -410,8 +410,9 @@ public class CountryController {
     public String removeManyToManyUniCountry() {
 
         Country usa = countryRepository.findById(3L).get();
-
-        usa.setLawUNISet(null); // bez tohoto dostanem:
+        // tento null je nutny nastavit iba ak mame CascadeType.ALL; Ak mam {CascadeType.PERSIST, CascadeType.MERGE}, tak to netreba,
+        // REMOVE funkcia nema zmysel, aby bola kaskadovana
+        //usa.setLawUNISet(null); // bez tohoto dostanem:
         //org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException:
         // Referential integrity constraint violation:
         // "FK6WBJ4HD3SUXOAJ4B55G8P0E9G: PUBLIC.COUNTRY_LAWUNISET FOREIGN KEY(LAWUNISET_ID) REFERENCES PUBLIC.LAWUNI(ID) (1)";

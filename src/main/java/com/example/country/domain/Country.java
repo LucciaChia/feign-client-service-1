@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name = "Country")
@@ -20,6 +22,9 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    // pouziva sa, ked mam zoznam napr. Stringov a nie svojich class
+    @ElementCollection // nahrada za OneToMany. vytvori sa extra tabulka Country_Border_Country. V Country nie je nic
+    private List<String> borderCountries = new ArrayList<>();
 
     // unidirectional
     @OneToOne(cascade = CascadeType.ALL)
@@ -44,6 +49,11 @@ public class Country {
     // unidirectional     tento ALL mozno nie je dobre
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER) // ked tu nie je fetch EAGER, tak
     private Set<LawUNI> lawUNISet = new HashSet<>();                // @GetMapping("/manytomanyuniremovelawfromacountry") nefunguje
+
+//    // unidirectional     tento ALL mozno nie je dobre
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // ked tu nie je fetch EAGER, tak
+//    private Set<LawUNI> lawUNISet = new HashSet<>();                // @GetMapping("/manytomanyuniremovelawfromacountry") nefunguje
+
 
     // bidirectional
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
